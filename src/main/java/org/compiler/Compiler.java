@@ -1,10 +1,14 @@
 package org.compiler;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class Compiler {
+
     public static void startCompile(String sourceDir, String outputDir, String javapath, String... dependencies) {
         File input = new File(sourceDir);
         File output = new File(outputDir);
@@ -18,10 +22,9 @@ public class Compiler {
             throw new IllegalArgumentException("Output folder is not a folder");
         }
         compile(input, output, javapath, dependencies);
-
     }
 
-    private String[] getFiles(File input){
+    public static String[] getFiles(File input){
         ArrayList<String> files = new ArrayList<>();
         for (File f : input.listFiles()) {
             if(f.isDirectory()){
@@ -36,8 +39,16 @@ public class Compiler {
 
     private static void compile(File input, File output, String javapath, String... dependencies) {
 
-        ArrayList<String> files = new ArrayList<>(Arrays.asList(new Compiler().getFiles(input)));
-        System.out.println(files.size());
+        String[] allFiles = getFiles(input);
+        ArrayList<String> files = new ArrayList<>();
+
+        for (String file :
+                allFiles) {
+            // make sure is a java file
+            if(file.endsWith(".java")){
+                files.add(file);
+            }
+        }
 
         ProcessBuilder pb = new ProcessBuilder();
         if(dependencies.length > 0){
@@ -56,12 +67,20 @@ public class Compiler {
         for (String f : files) {
             pb.command().add(f);
         }
+
+        System.out.println("Compile command:");
         System.out.println(pb.command().toString());
 
         try {
             Process p = pb.start();
             int code = p.waitFor();
-            System.out.println(code);
+            if(code == 0){
+                System.out.println("Successfully compiled all input files to .class.");
+            }
+            else
+            {
+                System.out.println("Error code " + code + " occurred during class compilation.\nMake sure your input strings are correct");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
