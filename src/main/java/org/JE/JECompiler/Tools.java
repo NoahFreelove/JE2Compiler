@@ -1,6 +1,6 @@
-package org.JECompiler;
+package org.JE.JECompiler;
 
-import JE.Window.WindowPreferences;
+import org.JE.JE2.Window.WindowPreferences;
 
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;

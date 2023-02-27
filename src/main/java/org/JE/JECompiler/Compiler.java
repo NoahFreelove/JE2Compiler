@@ -1,4 +1,4 @@
-package org.JECompiler;
+package org.JE.JECompiler;
 
 import java.io.*;
 import java.util.ArrayList;

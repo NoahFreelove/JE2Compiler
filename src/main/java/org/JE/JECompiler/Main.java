@@ -1,4 +1,4 @@
-package org.JECompiler;
+package org.JE.JECompiler;
 
 import org.joml.Vector2i;
 
@@ -16,6 +16,5 @@ public class Main {
                 "Name of your jar. Ex: CoolJar.jar", "Absolute Location of jar.exe, or 'jar' if you have the environmental variable set");
 
          */
-        TestChain.TestEditor();
     }
 }

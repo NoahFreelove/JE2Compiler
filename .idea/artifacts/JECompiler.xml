@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/out/artifacts/JECompiler</output-path>
     <root id="archive" name="JECompiler.jar">
       <element id="module-output" name="JE2Compiler" />
-      <element id="library" level="project" name="JE2" />
     </root>
   </artifact>
 </component>

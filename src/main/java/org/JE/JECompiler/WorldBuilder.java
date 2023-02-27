@@ -1,6 +1,6 @@
-package org.JECompiler;
+package org.JE.JECompiler;
 
-import JE.Window.WindowPreferences;
+import org.JE.JE2.Window.WindowPreferences;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,9 +22,9 @@ public class WorldBuilder {
 
         StringBuilder sb = new StringBuilder();
         sb.append("package ").append(runPackage).append(";").append(System.lineSeparator());
-        sb.append("import JE.Scene.Scene;").append(System.lineSeparator());
-        sb.append("import JE.Window.WindowPreferences;").append(System.lineSeparator());
-        sb.append("import JE.Manager;").append(System.lineSeparator());
+        sb.append("import org.JE.JE2.Scene.Scene;").append(System.lineSeparator());
+        sb.append("import org.JE.JE2.Window.WindowPreferences;").append(System.lineSeparator());
+        sb.append("import org.JE.JE2.Manager;").append(System.lineSeparator());
         sb.append("import org.joml.Vector2i;").append(System.lineSeparator());
         sb.append("public class JEMain {").append(System.lineSeparator());
         sb.append("public static void main(String[] args) {").append(System.lineSeparator());

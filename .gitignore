@@ -37,4 +37,4 @@ build/
 ### Mac OS ###
 .DS_Store
 bin/
-src/main/java/org/JECompiler/TestChain.java
+src/main/java/org/JE/JECompiler/TestChain.java
