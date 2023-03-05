@@ -9,7 +9,7 @@ public class Tools {
     public static volatile AtomicInteger compileStep = new AtomicInteger(0);
     public static void startCompileChain(String ABSOLUTE_sceneFolder, String ABSOLUTE_runPath, String runPackage, WindowPreferences windowPreferences,
                                          String ABSOLUTE_src, String ABSOLUTE_output, String ABSOLUTE_javaCompileCommandOrPath,
-                                         String ABSOLUTE_JE2JarLocation, String outputJarName, String ABSOLUTE_jarCompileCommandOrPath){
+                                         String ABSOLUTE_JE2JarLocation, String outputJarName, String ABSOLUTE_jarCompileCommandOrPath, String... additionalDependencies){
         compileStep.set(0);
         // Scene folder
         // run path (src/main/java/org/something
@@ -23,9 +23,17 @@ public class Tools {
         // jar command / exe path
         WorldBuilder.buildAllWorlds(ABSOLUTE_sceneFolder, ABSOLUTE_runPath, runPackage, windowPreferences);
         compileStep.incrementAndGet();
-        Compiler.startCompile(ABSOLUTE_src, ABSOLUTE_output, ABSOLUTE_javaCompileCommandOrPath, ABSOLUTE_JE2JarLocation);
+        // Add ABSOLUTE_JE2JarLocation to front of additionalDependencies array
+
+        String[] newAdditionalDependencies = new String[additionalDependencies.length + 1];
+        newAdditionalDependencies[0] = ABSOLUTE_JE2JarLocation;
+        for (int i = 0; i < additionalDependencies.length; i++) {
+            newAdditionalDependencies[i + 1] = additionalDependencies[i];
+        }
+
+        Compiler.startCompile(ABSOLUTE_src, ABSOLUTE_output, ABSOLUTE_javaCompileCommandOrPath, newAdditionalDependencies);
         compileStep.incrementAndGet();
-        JarCreator.toJar(ABSOLUTE_output, outputJarName, runPackage, ABSOLUTE_jarCompileCommandOrPath, ABSOLUTE_JE2JarLocation);
+        JarCreator.toJar(ABSOLUTE_output, outputJarName, runPackage, ABSOLUTE_jarCompileCommandOrPath, newAdditionalDependencies);
         compileStep.set(3);
     }
 

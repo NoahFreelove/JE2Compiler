@@ -50,9 +50,11 @@ public class Compiler {
         ProcessBuilder pb = new ProcessBuilder();
         if(dependencies.length > 0){
             pb.command("javac", "-d",output.getAbsolutePath(), "-cp");
+            StringBuilder appendedDependencies = new StringBuilder();
             for (String s : dependencies) {
-                pb.command().add(s);
+                appendedDependencies.append(s).append(";");
             }
+            pb.command().add(appendedDependencies.toString());
         }
         else{
             pb.command(javapath, "-d",output.getAbsolutePath());
@@ -77,6 +79,7 @@ public class Compiler {
             else
             {
                 System.out.println("Error code " + code + " occurred during class compilation.\nMake sure your input strings are correct");
+                System.out.println(new String(p.getErrorStream().readAllBytes()));
             }
         } catch (Exception e) {
             e.printStackTrace();
