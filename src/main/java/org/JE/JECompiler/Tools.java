@@ -21,10 +21,16 @@ public class Tools {
         // JE2.jar absolute path
         // Output jar name
         // jar command / exe path
+        if(ABSOLUTE_src.endsWith("/")){
+            ABSOLUTE_src = ABSOLUTE_src.substring(0, ABSOLUTE_src.length()-1);
+        }
+        if(ABSOLUTE_src.endsWith("\\")){
+            ABSOLUTE_src = ABSOLUTE_src.substring(0, ABSOLUTE_src.length()-1);
+        }
         WorldBuilder.buildAllWorlds(ABSOLUTE_sceneFolder, ABSOLUTE_runPath, runPackage, windowPreferences);
         compileStep.incrementAndGet();
-        // Add ABSOLUTE_JE2JarLocation to front of additionalDependencies array
 
+        // Add ABSOLUTE_JE2JarLocation to front of additionalDependencies array
         String[] newAdditionalDependencies = new String[additionalDependencies.length + 1];
         newAdditionalDependencies[0] = ABSOLUTE_JE2JarLocation;
         for (int i = 0; i < additionalDependencies.length; i++) {
@@ -32,6 +38,7 @@ public class Tools {
         }
 
         Compiler.startCompile(ABSOLUTE_src, ABSOLUTE_output, ABSOLUTE_javaCompileCommandOrPath, newAdditionalDependencies);
+        Compiler.mergeResources(ABSOLUTE_src+"\\main\\resources", ABSOLUTE_output);
         compileStep.incrementAndGet();
         JarCreator.toJar(ABSOLUTE_output, outputJarName, runPackage, ABSOLUTE_jarCompileCommandOrPath, newAdditionalDependencies);
         compileStep.set(3);

@@ -85,4 +85,48 @@ public class Compiler {
             e.printStackTrace();
         }
     }
+
+    public static void mergeResources(String resource, String destination){
+        System.out.println("Merging resources from " + resource + " to " + destination);
+        // Copy all resources from resource to destination
+        // If a file already exists in destination, it will be overwritten
+        File resourceDir = new File(resource);
+        File destinationDir = new File(destination);
+        if(!resourceDir.exists() || !resourceDir.isDirectory()){
+            System.out.println("Resource folder does not exist or is not a folder");
+            System.out.println("Skipping merge");
+            return;
+        }
+        if(!destinationDir.exists() || !destinationDir.isDirectory()){
+            System.out.println("Destination folder does not exist or is not a folder");
+            System.out.println("Skipping merge");
+            return;
+        }
+        for (File f : resourceDir.listFiles()) {
+            if(f.isDirectory()){
+                mergeResources(f.getAbsolutePath(), destinationDir.getAbsolutePath());
+            }
+            else{
+                try {
+                    File destinationFile = new File(destinationDir.getAbsolutePath() + "\\" + f.getName());
+                    if(destinationFile.exists()){
+                        destinationFile.delete();
+                    }
+                    destinationFile.createNewFile();
+                    FileInputStream fis = new FileInputStream(f);
+                    FileOutputStream fos = new FileOutputStream(destinationFile);
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = fis.read(buffer)) > 0) {
+                        fos.write(buffer, 0, length);
+                    }
+                    fis.close();
+                    fos.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
 }
