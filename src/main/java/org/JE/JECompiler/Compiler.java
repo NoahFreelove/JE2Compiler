@@ -127,6 +127,21 @@ public class Compiler {
                 }
             }
         }
+    }
 
+    public static void run(String java, String output, String mainPackage){
+        ProcessBuilder pb = new ProcessBuilder();
+        // change directory to output
+        pb.directory(new File(output));
+        pb.command(java, mainPackage);
+        // redirect output to console
+        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        try {
+            System.out.println(pb.command().toString());
+            pb.start();
+        }
+        catch (Exception e){
+
+        }
     }
 }

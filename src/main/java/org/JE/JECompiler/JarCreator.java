@@ -58,7 +58,7 @@ public class JarCreator {
         }
     }
 
-    private static void mergeDependencies(String mergeFolderPath, String... dependencies){
+    public static void mergeDependencies(String mergeFolderPath, String... dependencies){
         for (String path :
                 dependencies) {
             try {
